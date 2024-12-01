@@ -6,6 +6,8 @@ class AppointmentCreate(BaseModel):
     patient_id: int
     doctor_id: int
     appointment_time: datetime
+    doctor_availability: str
+    status: str
     reason: Optional[str]
 
 class Appointment(AppointmentCreate):
