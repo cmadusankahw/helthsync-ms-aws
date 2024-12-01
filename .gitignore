@@ -1,2 +1,5 @@
 .DS_Store
 .venv/
+AWSCLIV2.pkg
+kubectl
+kubectl.sha256

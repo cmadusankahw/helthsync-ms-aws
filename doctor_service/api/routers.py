@@ -8,7 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = APIRouter()
 
-@app.post("/create/", response_model=schemas.Doctor)
+@app.post("/create", response_model=schemas.DoctorCreate)
 async def create_doctor(doctor: schemas.Doctor, db: Session = Depends(get_db)):
     try:
         doc = crud.create_doctor(db, doctor)
@@ -30,6 +30,19 @@ async def get_doctor(doctor_id: int, db: Session = Depends(get_db)):
         return {
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to retrieve doctor: {str(e)}"
+        }
+    
+@app.post("/update/{doctor_id}", response_model=schemas.Doctor)
+async def update_doctor(doctor_id: int, doctor:schemas.DoctorCreate, db: Session = Depends(get_db)):
+    try:
+        db_doc = crud.update_doctor(db, doctor_id, doctor)
+        if not db_doc:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Doctor not found")
+        return {"status": status.HTTP_200_OK, "message": f"Doctor {db_doc.id} Updated"}
+    except HTTPException as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": f"Failed to retrieve Doctor: {str(e)}"
         }
 
 @app.delete("/delete/{doctor_id}")

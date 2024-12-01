@@ -1,22 +1,38 @@
 from pydantic import BaseModel
 from typing import List, Optional
 
-class LabResultCreate(BaseModel):
-    result: str
-
 class PatientCreate(BaseModel):
     name: str
     dob: str
+    age: int
     medical_history: Optional[str]
+    doctor_id: int
 
-class Patient(BaseModel):
+class Patient(PatientCreate):
     id: int
-    name: str
-    dob: str
-    medical_history: Optional[str]
 
     class Config:
         orm_mode = True
 
-class PatientDetail(Patient):
-    lab_results: List[LabResultCreate] = []
+class LabResultCreate(BaseModel):
+    patennt_id: int
+    lab_name: str
+    result: str
+
+class LabResult(LabResultCreate):
+    id: int
+
+    class Config:
+        orm_mode = True
+
+class PrescriptionCreate(BaseModel):
+    patent_id: int
+    medicines: str
+    cost: float
+
+class Prescription(PrescriptionCreate):
+    id: int
+
+    class Config:
+        orm_mode = True
+

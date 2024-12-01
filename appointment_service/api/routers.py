@@ -9,7 +9,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = APIRouter()
 
-@app.post("/create/", response_model=schemas.Appointment)
+@app.post("/create", response_model=schemas.Appointment)
 async def create_appointment(appointment: schemas.AppointmentCreate, db: Session = Depends(get_db)):
     try:
         app = crud.create_appointment(db, appointment)
@@ -32,6 +32,20 @@ async def get_appointment(appointment_id: int, db: Session = Depends(get_db)):
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to retrieve appointment: {str(e)}"
         }
+    
+@app.post("/update/{appointment_id}", response_model=schemas.Appointment)
+async def update_appointment(appointment_id: int, appointment:schemas.AppointmentCreate, db: Session = Depends(get_db)):
+    try:
+        db_appointment = crud.update_appointment(db, appointment_id, appointment)
+        if not db_appointment:
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="Appointment not found")
+        return {"status": status.HTTP_200_OK, "message": f"Appointment {db_appointment.id} Updated"}
+    except HTTPException as e:
+        return {
+            "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
+            "message": f"Failed to retrieve appointment: {str(e)}"
+        }
+
 
 @app.delete("/delete/{appointment_id}")
 async def delete_appointment(appointment_id: int, db: Session = Depends(get_db)):

@@ -7,14 +7,24 @@ class Patient(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, index=True)
     dob = Column(Date)
+    age = Column(Integer)
     medical_history = Column(Text)
-    doctors = relationship("DoctorPatient", back_populates="patient")
+    doctor_id = Column(Integer)
 
 class LabResult(Base):
     __tablename__ = "lab_results"
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"))
+    lab_name = Column(String)
     result = Column(Text)
-    patient = relationship("Patient", back_populates="lab_results")
 
-Patient.lab_results = relationship("LabResult", back_populates="patient", cascade="all, delete")
+class Prescription(Base):
+    __tablename__ = "lab_results"
+    id = Column(Integer, primary_key=True, index=True)
+    patient_id = Column(Integer, ForeignKey("patients.id"))
+    medicines = Column(Text)
+    cost = Column(float)
+
+LabResult.patient_id = relationship("Patient", back_populates="id", cascade="all, delete")
+
+Prescription.patient_id = relationship("Patient", back_populates="id", cascade="all, delete")
