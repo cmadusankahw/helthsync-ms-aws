@@ -1,5 +1,6 @@
 import boto3
 import json
+import os
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
@@ -28,8 +29,8 @@ def get_database_url():
     """
     Build the database URL using credentials from Secrets Manager.
     """
-    secret_name = "my-db-secret"
-    region_name = "ap-south-1" 
+    secret_name = os.getenv("SECRET_NAME")
+    region_name = os.getenv("REGION_NAME")
 
     # Retrieve credentials
     credentials = get_db_credentials(secret_name, region_name)
