@@ -59,7 +59,6 @@ async def lifespan(app: FastAPI):
 # FastAPI application
 app = FastAPI(lifespan=lifespan)
 
-
 # Endpoint: Schedule a reminder
 @app.post("/schedule", response_model=schemas.NotificationResponse)
 async def schedule_appointment_reminder(reminder: schemas.AppointmentReminder):

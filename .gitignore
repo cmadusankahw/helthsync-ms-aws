@@ -3,3 +3,6 @@
 AWSCLIV2.pkg
 kubectl
 kubectl.sha256
+iam_user.txt
+terraform_deployment/.terraform*
+terraform_deployment/terraform.tf*
