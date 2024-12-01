@@ -28,8 +28,8 @@ def get_database_url():
     """
     Build the database URL using credentials from Secrets Manager.
     """
-    secret_name = "my-db-secret"  # Replace with your Secrets Manager secret name
-    region_name = "us-west-2"     # Replace with your region
+    secret_name = "my-db-secret"
+    region_name = "ap-south-1" 
 
     # Retrieve credentials
     credentials = get_db_credentials(secret_name, region_name)
