@@ -5,7 +5,7 @@ from datetime import datetime, timedelta
 import redis
 from apscheduler.schedulers.background import BackgroundScheduler
 import json
-from . import schemas
+from api import schemas
 from contextlib import asynccontextmanager
 
 # Connect to Redis (use AWS Elasticache in production)

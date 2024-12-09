@@ -1,12 +1,16 @@
 import boto3
 import json
 import os
+import base64
+from dotenv import load_dotenv
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.ext.declarative import declarative_base
 
 # Define the base for the ORM models
 Base = declarative_base()
+
+load_dotenv()
 
 def get_db_credentials(secret_name: str, region_name: str):
     """
@@ -18,7 +22,10 @@ def get_db_credentials(secret_name: str, region_name: str):
     # Retrieve the secret value
     try:
         get_secret_value_response = client.get_secret_value(SecretId=secret_name)
-        secret = get_secret_value_response["SecretString"]
+        if 'SecretString' in get_secret_value_response:
+            secret = get_secret_value_response['SecretString']
+        else:
+            secret = base64.b64decode(get_secret_value_response['SecretBinary'])
         credentials = json.loads(secret)
         return credentials
     except Exception as e:

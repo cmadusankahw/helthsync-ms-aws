@@ -1,8 +1,8 @@
 fastapi
 uvicorn
 sqlalchemy
-psycopg2-binary
 aioredis
 pydantic
 boto3
 python-dotenv
+psycopg2-binary

@@ -2,10 +2,9 @@ from fastapi import FastAPI, Depends, status, HTTPException
 from aioredis import Redis
 from sqlalchemy.orm import Session
 import boto3
-import asyncio
-from . import schemas
-from database import get_db
-from aggregator_service.api.utils import generate_aggregate_report
+from api import schemas
+from api.database import get_db
+from api.utils import generate_aggregate_report
 
 app = FastAPI()
 redis = Redis(host='redis-endpoint', port=6379)
