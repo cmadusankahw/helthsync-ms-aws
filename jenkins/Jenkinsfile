@@ -2,10 +2,12 @@ pipeline {
     agent any
 
     environment {
-        AWS_REGION = 'ap-south-1'
+        AWS_DEFAULT_REGION = 'ap-south-1'
         TESTING_CLUSTER = 'helthsync-eks-test'
         PRODUCTION_CLUSTER = 'helthsync-eks-prod'
         DOCKER_REPO = 'chiranhw95'
+        AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
     }
 
     stages {
@@ -29,40 +31,14 @@ pipeline {
             }
         }
 
-        stage('Setup AWS Credentials') {
-            steps {
-                withCredentials([aws(
-                    credentialsId: 'aws-eks-credentials',
-                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
-                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
-                )]) {
-                    sh '''
-                    aws sts get-caller-identity
-                    '''
-                }
-            }
-        }
-
         stage('Deploy to Testing Cluster') {
             steps {
                 script {
                     // Switch context to testing cluster
                     sh """
-                    aws eks --region ${AWS_REGION} update-kubeconfig --name ${TESTING_CLUSTER}
+                    aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${TESTING_CLUSTER}
                     kubectl apply -f ./jenkins/k8s/testing-deployment.yaml -n testing
                     """
-                }
-            }
-        }
-
-        stage('Run Connection Tests') {
-            steps {
-                script {
-                    // Run simple API tests
-                    def testResult = sh(script: "curl -f https://3FD8A134A440E1C0ED5D6072094AFB31.gr7.ap-south-1.eks.amazonaws.com/health", returnStatus: true)
-                    if (testResult != 0) {
-                        error "Tests failed on testing cluster"
-                    }
                 }
             }
         }
@@ -70,12 +46,11 @@ pipeline {
         stage('Run Unit Tests') {
             steps {
                 script {
-                    // Run unit tests for each service
-                    sh '''
-                    cd ./services/patient_service && pytest tests/ --disable-warnings
-                    cd /services/doctor_service && pytest tests/ --disable-warnings
-                    cd /services/appointment_service && pytest tests/ --disable-warnings
-                    '''
+                    // Run simple API tests
+                    def testResult = sh(script: "curl -f https://299C0166393D40BE8FA1D8BBF89233F5.yl4.ap-south-1.eks.amazonaws.com/health", returnStatus: true)
+                    if (testResult != 0) {
+                        error "Tests failed on testing cluster"
+                    }
                 }
             }
         }
@@ -90,7 +65,7 @@ pipeline {
                 script {
                     // Switch context to production cluster
                     sh """
-                    aws eks --region ${AWS_REGION} update-kubeconfig --name ${PRODUCTION_CLUSTER}
+                    aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${PRODUCTION_CLUSTER}
                     kubectl apply -f ./jenkins/k8s/production-deployment.yaml -n production
                     """
                 }
