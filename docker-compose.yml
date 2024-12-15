@@ -1,0 +1,47 @@
+version: '3.9'
+services:
+  patient-service:
+    build:
+      context: ./patient_service
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./patient_service/.env
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  appointment-service:
+    build:
+      context: ./appointment_service
+    ports:
+      - "8001:8000"
+    env_file:
+      - ./appointment_service/.env
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  notification-service:
+    build:
+      context: ./notification_service
+    ports:
+      - "8002:8000"
+
+  aggregator-service:
+    build:
+      context: ./aggregator_service
+    ports:
+      - "8003:8000"
+    env_file:
+      - ./aggregator_service/.env
+    volumes:
+      - ~/.aws:/root/.aws:ro
+
+  doctor-service:
+    build:
+      context: ./doctor_service
+    ports:
+      - "8004:8000"
+    env_file:
+      - ./doctor_service/.env
+    volumes:
+      - ~/.aws:/root/.aws:ro

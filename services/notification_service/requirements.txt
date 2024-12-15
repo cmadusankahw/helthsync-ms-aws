@@ -1,0 +1,9 @@
+fastapi
+uvicorn
+sqlalchemy
+aioredis
+pydantic
+boto3
+APScheduler
+redis
+psycopg2-binary
