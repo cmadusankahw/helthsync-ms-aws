@@ -1,4 +1,4 @@
-resource "aws_eks_cluster" "eks" {
+resource "aws_eks_cluster" "test" {
   name     = "helthsync-eks-test"
   role_arn = aws_iam_role.master.arn
 

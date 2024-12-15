@@ -1,6 +1,6 @@
-resource "aws_eks_node_group" "test-node-grp" {
-  cluster_name    = aws_eks_cluster.eks.name
-  node_group_name = "hs-test-node-group"
+resource "aws_eks_node_group" "testing-node-grp" {
+  cluster_name    = aws_eks_cluster.test.name
+  node_group_name = "hs-testing-node-group"
   node_role_arn   = aws_iam_role.worker.arn
   subnet_ids      = [aws_subnet.test_public_1.id, aws_subnet.test_public_2.id]
   capacity_type   = "ON_DEMAND"
@@ -8,7 +8,7 @@ resource "aws_eks_node_group" "test-node-grp" {
   instance_types  = ["t2.small"]
 
   remote_access {
-    ec2_ssh_key               = "ubuntuoregon"
+    ec2_ssh_key               = "hs-key-pair"
     source_security_group_ids = [aws_security_group.test_allow_tls.id]
   }
 

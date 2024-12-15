@@ -32,16 +32,16 @@ resource "aws_security_group" "rds_sg" {
 resource "aws_db_instance" "postgres" {
   allocated_storage    = 20
   storage_type         = "gp2"
-  instance_class       = "db.t2.micro"
+  instance_class       = "db.t3.micro"
   engine               = "postgres"
-  engine_version       = "13.3"
-  name                 = "hs"
-  username             = "admin"
-  password             = "p@ssw0rd" 
+  engine_version       = "15.4"
+  db_name              = "hs"
+  username             = "hsuser"
+  password             = "hspassword" 
   db_subnet_group_name = aws_db_subnet_group.main.name
-  vpc_security_group_ids = [aws_security_group.test_allow_tls.id]
+  vpc_security_group_ids = [aws_security_group.rds_sg.id]
   multi_az             = false
-  publicly_accessible  = true
+  publicly_accessible  = false
   skip_final_snapshot  = true
   tags = {
     Name = "HelthSync PostgreSQL DB"
