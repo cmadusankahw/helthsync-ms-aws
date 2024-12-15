@@ -41,7 +41,7 @@ pipeline {
             }
         }
 
-        stage('Run Unit Tests') {
+        stage('Run Connection Tests') {
             steps {
                 script {
                     // Run simple API tests
@@ -49,6 +49,19 @@ pipeline {
                     if (testResult != 0) {
                         error "Tests failed on testing cluster"
                     }
+                }
+            }
+        }
+
+        stage('Run Unit Tests') {
+            steps {
+                script {
+                    // Run unit tests for each service
+                    sh '''
+                    cd ./services/patient_service && pytest tests/ --disable-warnings
+                    cd /services/doctor_service && pytest tests/ --disable-warnings
+                    cd /services/appointment_service && pytest tests/ --disable-warnings
+                    '''
                 }
             }
         }
