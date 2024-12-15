@@ -29,6 +29,20 @@ pipeline {
             }
         }
 
+        stage('Setup AWS Credentials') {
+            steps {
+                withCredentials([aws(
+                    credentialsId: 'aws-eks-credentials',
+                    accessKeyVariable: 'AWS_ACCESS_KEY_ID',
+                    secretKeyVariable: 'AWS_SECRET_ACCESS_KEY'
+                )]) {
+                    sh '''
+                    aws sts get-caller-identity
+                    '''
+                }
+            }
+        }
+
         stage('Deploy to Testing Cluster') {
             steps {
                 script {
