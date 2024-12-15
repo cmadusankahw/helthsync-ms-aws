@@ -1,11 +1,24 @@
-resource "aws_efs_mount_target" "efs_mt_public1" {
+resource "aws_efs_mount_target" "efs_mt_test_public1" {
   file_system_id  = aws_efs_file_system.efs.id
-  subnet_id       = aws_subnet.public-1.id
-  security_groups = [aws_security_group.allow_tls.id]
+  subnet_id       = aws_subnet.test_public_1.id
+  security_groups = [aws_security_group.test_allow_tls.id]
 }
 
-resource "aws_efs_mount_target" "efs_mt_public2" {
+resource "aws_efs_mount_target" "efs_mt_test_public2" {
   file_system_id  = aws_efs_file_system.efs.id
-  subnet_id       = aws_subnet.public-2.id
-  security_groups = [aws_security_group.allow_tls.id]
+  subnet_id       = aws_subnet.test_public_2.id
+  security_groups = [aws_security_group.test_allow_tls.id]
+}
+
+
+resource "aws_efs_mount_target" "efs_mt_prod_public1" {
+  file_system_id  = aws_efs_file_system.efs.id
+  subnet_id       = aws_subnet.prod_public_1.id
+  security_groups = [aws_security_group.prod_allow_tls.id]
+}
+
+resource "aws_efs_mount_target" "efs_mt_prod_public2" {
+  file_system_id  = aws_efs_file_system.efs.id
+  subnet_id       = aws_subnet.prod_public_2.id
+  security_groups = [aws_security_group.prod_allow_tls.id]
 }
