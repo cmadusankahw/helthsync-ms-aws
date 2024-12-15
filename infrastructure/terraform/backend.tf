@@ -1,5 +1,5 @@
 resource "aws_s3_bucket" "terraform_state" {
-  bucket = "helthsync-terraform-state-bucket"
+  bucket = "hs-terraform-state-bucket"
   acl    = "private"
 
   versioning {

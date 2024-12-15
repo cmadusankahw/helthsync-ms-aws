@@ -4,6 +4,6 @@ resource "aws_efs_file_system" "efs" {
   }
 
   tags = {
-    Name = "my-efs-filesystem"
+    Name = "hs-efs-filesystem"
   }
 }

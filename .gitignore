@@ -8,3 +8,4 @@ infrastructure/terraform/.terraform*
 infrastructure/terraform/terraform.tf*
 main.tfplan
 __pycache__
+hs-key-pair.pem

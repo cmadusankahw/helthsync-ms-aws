@@ -41,7 +41,7 @@ jobs:
     - name: Terraform Init
       run: |
         cd infrastructure/terraform
-        terraform init -backend-config="helthsync-terraform-state-bucket"
+        terraform init -backend-config="hs-terraform-state-bucket"
     - name: Terraform Plan
       run: terraform plan -out=tfplan -input=false
       working-directory: infrastructure/terraform
