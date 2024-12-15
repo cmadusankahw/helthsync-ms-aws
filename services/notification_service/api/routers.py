@@ -1,4 +1,4 @@
-from fastapi import FastAPI, HTTPException, Depends, status
+from fastapi import APIRouter, HTTPException, Depends, status, FastAPI
 from pydantic import BaseModel
 from typing import List
 from datetime import datetime, timedelta
@@ -57,7 +57,7 @@ async def lifespan(app: FastAPI):
         print("Scheduler stopped.")
 
 # FastAPI application
-app = FastAPI(lifespan=lifespan)
+app = APIRouter(lifespan=lifespan)
 
 # Endpoint: Schedule a reminder
 @app.post("/schedule", response_model=schemas.NotificationResponse)

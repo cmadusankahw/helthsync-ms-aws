@@ -37,7 +37,7 @@ def get_database_url():
     Build the database URL using credentials from Secrets Manager.
     """
     secret_name = os.getenv("SECRET_NAME")
-    region_name = os.getenv("REGION_NAME")
+    region_name = os.getenv("AWS_REGION")
 
     # Retrieve credentials
     credentials = get_db_credentials(secret_name, region_name)

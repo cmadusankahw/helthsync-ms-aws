@@ -175,3 +175,31 @@ resource "aws_iam_role_policy_attachment" "eks_worker_additional_permissions_att
   role       = aws_iam_role.worker.name
   policy_arn = aws_iam_policy.eks_worker_additional_permissions.arn
 }
+
+# Terraform state backend
+resource "aws_iam_policy" "terraform_s3_policy" {
+  name        = "TerraformS3StatePolicy"
+  description = "Policy for accessing the Terraform S3 backend state bucket"
+  policy      = jsonencode({
+    Version = "2012-10-17",
+    Statement = [
+      {
+        Effect   = "Allow",
+        Action   = [
+          "s3:GetObject",
+          "s3:ListBucket",
+          "s3:PutObject"
+        ],
+        Resource = [
+          "arn:aws:s3:::helthsync-terraform-state-bucket",
+          "arn:aws:s3:::helthsync-terraform-state-bucket/*"
+        ]
+      }
+    ]
+  })
+}
+
+resource "aws_iam_role_policy_attachment" "terraform_s3_attachment" {
+  role       = aws_iam_role.master.name
+  policy_arn = aws_iam_policy.terraform_s3_policy.arn
+}

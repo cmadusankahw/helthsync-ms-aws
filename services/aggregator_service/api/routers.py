@@ -1,4 +1,4 @@
-from fastapi import FastAPI, Depends, status, HTTPException
+from fastapi import APIRouter, Depends, status, HTTPException
 from aioredis import Redis
 from sqlalchemy.orm import Session
 import boto3
@@ -6,7 +6,7 @@ from api import schemas
 from api.database import get_db
 from api.utils import generate_aggregate_report
 
-app = FastAPI()
+app = APIRouter()
 redis = Redis(host='redis-endpoint', port=6379)
 
 redshift_client = boto3.client('redshift', region_name='your-region')

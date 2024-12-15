@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, Date, ForeignKey, Text
+from sqlalchemy import Column, Integer, String, Date, ForeignKey, Text, Float
 from sqlalchemy.orm import relationship
 from api.database import Base
 
@@ -23,7 +23,7 @@ class Prescription(Base):
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"))
     medicines = Column(Text)
-    cost = Column(float)
+    cost = Column(Float)
 
 LabResult.patient_id = relationship("Patient", back_populates="id", cascade="all, delete")
 

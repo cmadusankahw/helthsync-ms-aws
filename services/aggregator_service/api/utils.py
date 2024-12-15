@@ -1,9 +1,7 @@
-from database import get_db
 from sqlalchemy.orm import Session
-from models import Doctor, Patient, Appointment
-from schemas import AggregateReport
+from api.models import Doctor, Patient, Appointment
+from api.schemas import AggregateReport
 from collections import defaultdict
-from datetime import datetime
 
 def generate_aggregate_report(db: Session):
     appointments = db.query(Appointment).all()
