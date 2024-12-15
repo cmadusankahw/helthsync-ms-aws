@@ -1,11 +1,17 @@
 name: Deploy to Terraform
 
 on:
+  workflow_dispatch:
+  
   push:
     branches:
       - main
     paths:
       - 'infrastructure/terraform/**'
+
+permissions:
+  id-token: write
+  contents: read 
 
 jobs:
   terraform:
