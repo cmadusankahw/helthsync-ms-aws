@@ -29,12 +29,12 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    def services = ['patient-service', 'doctor-service','appointment-service']
-                    for (service in services) {
-                        sh """
-                        docker build -t ${DOCKER_REPO}/${service}:latest ./services/${service}
-                        docker push ${DOCKER_REPO}/${service}:latest
-                        """
+                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                        def services = ['patient-service', 'doctor-service','appointment-service']
+                        for (service in services) {
+                            docker.build("${DOCKER_REPO}/${service}:latest", "./services/${service}")
+                                  .push('latest')
+                        }
                     }
                 }
             }
