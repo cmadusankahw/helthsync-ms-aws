@@ -2,46 +2,58 @@ version: '3.9'
 services:
   patient-service:
     build:
-      context: ./patient_service
+      context: ./services/patient_service
+      dockerfile: Dockerfile
     ports:
       - "8000:8000"
     env_file:
-      - ./patient_service/.env
+      - ./services/patient_service/.env
     volumes:
       - ~/.aws:/root/.aws:ro
+    image:
+      chiranhw95/patient-service:latest
 
   appointment-service:
     build:
-      context: ./appointment_service
+      context: ./services/appointment_service
+      dockerfile: Dockerfile
     ports:
       - "8001:8000"
     env_file:
-      - ./appointment_service/.env
+      - ./services/appointment_service/.env
     volumes:
       - ~/.aws:/root/.aws:ro
+    image:
+      chiranhw95/appointment-service:latest
 
-  notification-service:
-    build:
-      context: ./notification_service
-    ports:
-      - "8002:8000"
+  # notification-service:
+  #   build:
+  #     context: ./services/notification_service
+  #   ports:
+  #     - "8002:8000"
 
   aggregator-service:
     build:
-      context: ./aggregator_service
+      context: ./services/aggregator_service
+      dockerfile: Dockerfile
     ports:
       - "8003:8000"
     env_file:
-      - ./aggregator_service/.env
+      - ./services/aggregator_service/.env
     volumes:
       - ~/.aws:/root/.aws:ro
+    image:
+      chiranhw95/aggregator-service:latest
 
   doctor-service:
     build:
-      context: ./doctor_service
+      context: ./services/doctor_service
+      dockerfile: Dockerfile
     ports:
       - "8004:8000"
     env_file:
-      - ./doctor_service/.env
+      - ./services/doctor_service/.env
     volumes:
       - ~/.aws:/root/.aws:ro
+    image:
+      chiranhw95/doctor-service:latest
