@@ -1,6 +1,10 @@
 pipeline {
-    agent any
-
+    agent {
+        docker {
+            image 'docker:24.0' // Lightweight image with Docker CLI
+            args '--privileged -v /var/run/docker.sock:/var/run/docker.sock'
+        }
+    }
     environment {
         AWS_DEFAULT_REGION = 'ap-south-1'
         TESTING_CLUSTER = 'helthsync-eks-test'
