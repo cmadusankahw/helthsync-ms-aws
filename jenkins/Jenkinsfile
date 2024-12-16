@@ -29,13 +29,13 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                        def services = ['patient-service', 'doctor-service','appointment-service']
+                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                        def services = ['patient-service', 'doctor-service', 'appointment-service'] // List of microservices
                         for (service in services) {
-                            sh """
-                            docker build -t ${DOCKER_REPO}/${service}:latest ./services/${service}
-                            docker push ${DOCKER_REPO}/${service}:latest
-                            """
+                            docker.build("${DOCKER_REPO}/${service}:latest", "./services/${service}")
+                                  .push('latest')
                         }
+                    }
                 }
             }
         }
