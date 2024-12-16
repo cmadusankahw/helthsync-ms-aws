@@ -29,7 +29,7 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    def services = ['patient_service', 'doctor_service','appointment_service'] 
+                    def services = ['patient-service', 'doctor-service','appointment-service']
                     for (service in services) {
                         sh """
                         docker build -t ${DOCKER_REPO}/${service}:latest ./services/${service}
