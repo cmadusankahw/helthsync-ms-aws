@@ -39,7 +39,7 @@ spec:
             memory: "512Mi"
             cpu: "1"
       - name: appointment-serivce
-        image: chiranhw95/      - name: appointment-service:latest
+        image: chiranhw95/appointment-service:latest
         ports:
         - containerPort: 8080
         resources:
