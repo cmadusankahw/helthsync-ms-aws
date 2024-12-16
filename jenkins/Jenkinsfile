@@ -8,6 +8,9 @@ pipeline {
         DOCKER_REPO = 'chiranhw95'
         AWS_ACCESS_KEY_ID = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_ACCESS_KEY_ID')
+        tools {
+            'org.jenkinsci.plugins.docker.commons.tools.DockerTool' 'docker'
+            }
     }
 
     stages {
@@ -29,13 +32,15 @@ pipeline {
         stage('Build Docker Images') {
             steps {
                 script {
-                    docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
-                        def services = ['patient-service', 'doctor-service','appointment-service']
-                        for (service in services) {
-                            sh """
-                            docker build -t ${DOCKER_REPO}/${service}:latest ./services/${service}
-                            docker push ${DOCKER_REPO}/${service}:latest
-                            """
+                    docker.withTool('docker'){
+                        docker.withRegistry('https://index.docker.io/v1/', 'docker-hub-credentials') {
+                            def services = ['patient-service', 'doctor-service','appointment-service']
+                            for (service in services) {
+                                sh """
+                                docker build -t ${DOCKER_REPO}/${service}:latest ./services/${service}
+                                docker push ${DOCKER_REPO}/${service}:latest
+                                """
+                            }
                         }
                     }
                 }
