@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: doctor-serivce
-        image: chiranhw95/doctor-service:latest
+        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/doctor-service:latest
         ports:
         - containerPort: 8080
         resources:
@@ -28,7 +28,7 @@ spec:
             memory: "256Mi"
             cpu: "1"
       - name: patient-serivce
-        image: chiranhw95/patient-service:latest
+        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/patient-service:latest
         ports:
         - containerPort: 8080
         resources:
@@ -39,7 +39,7 @@ spec:
             memory: "256Mi"
             cpu: "1"
       - name: appointment-serivce
-        image: chiranhw95/appointment-service:latest
+        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/appointment-service:latest
         ports:
         - containerPort: 8080
         resources:
