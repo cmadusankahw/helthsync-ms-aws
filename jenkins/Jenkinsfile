@@ -18,27 +18,18 @@ pipeline {
             }
         }
 
-        stage('Initialize') {
-            steps {
-                script {
-                    def dockerHome = tool 'docker'
-                    env.PATH = "${dockerHome}/bin:${env.PATH}"
-                }
-            }
-        }
-
 
         stage('Deploy Services to Testing ECR') {
             steps {
                 withAWS(credentials: 'AWS_CREDS', region: "${AWS_DEFAULT_REGION}") {
                      script {
                         def services = ['patient-service', 'doctor-service','appointment-service']
-                        def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com/test/helthsync"""
+                        def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
                         for (service in services) {
                             sh """docker build --no-cache -t ${service}:latest ./services/${service}"""
-                            sh """aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ecr_registry_id}"""
-                            sh """docker tag ${service}:latest ${ecr_registry_id}/${service}:latest"""
-                            sh """docker push ${ecr_registry_id}/${service}:latest"""
+                            sh """/usr/local/bin/aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ecr_registry_id}"""
+                            sh """docker tag ${service}:latest ${ecr_registry_id}/test/helthsync:latest"""
+                            sh """docker push ${ecr_registry_id}/test/helthsync"""
                         }
                      }
                 }
