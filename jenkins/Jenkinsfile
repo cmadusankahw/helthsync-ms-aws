@@ -23,7 +23,7 @@ pipeline {
             steps {
                 withAWS(credentials: 'AWS_CREDS', region: "${AWS_DEFAULT_REGION}") {
                      script {
-                        def services = ['patient-service', 'doctor-service','appointment-service', 'notification-service', 'aggregator-service']
+                        def services = ['patient-service', 'doctor-service','appointment-service']
                         def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
                         for (service in services) {
                             sh """docker build --no-cache -t ${service}:latest ./services/${service}"""
@@ -54,7 +54,6 @@ pipeline {
                             // Verify deployment
                             sh """
                             kubectl get pods
-                            kubectl get service ${service}
                             """
                         }
                     }
@@ -63,34 +62,61 @@ pipeline {
         }
 
 
-        stage('Run Unit Tests') {
+        stage('Run Health Checks') {
             steps {
                 script {
                     // Run simple API tests
-                    def testResult = sh(script: "curl -f https://299C0166393D40BE8FA1D8BBF89233F5.yl4.ap-south-1.eks.amazonaws.com/health", returnStatus: true)
+                    def testResult = sh(script: "curl -f http://299C0166393D40BE8FA1D8BBF89233F5.yl4.ap-south-1.eks.amazonaws.com/health", returnStatus: true)
                     if (testResult != 0) {
-                        error "Tests failed on testing cluster"
+                        error "Helth Checks failed on testing cluster"
                     }
                 }
             }
         }
 
-        stage('Deploy to Production Cluster') {
-            when {
-                expression {
-                    currentBuild.result == null || currentBuild.result == 'SUCCESS'
+
+        stage('Deploy Services to PROD ECR') {
+            steps {
+                withAWS(credentials: 'AWS_CREDS', region: "${AWS_DEFAULT_REGION}") {
+                     script {
+                        def services = ['patient-service', 'doctor-service','appointment-service']
+                        def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                        for (service in services) {
+                            sh """docker build --no-cache -t ${service}:latest ./services/${service}"""
+                            sh """/usr/local/bin/aws ecr get-login-password --region ${AWS_DEFAULT_REGION} | docker login --username AWS --password-stdin ${ecr_registry_id}"""
+                            sh """docker tag ${service}:latest ${ecr_registry_id}/prod/helthsync/${service}:latest"""
+                            sh """docker push ${ecr_registry_id}/prod/helthsync/${service}"""
+                        }
+                     }
                 }
+                
             }
+        }
+
+
+        stage('Deploy services to PROD EKS') {
             steps {
                 script {
-                    // Switch context to production cluster
-                    sh """
-                    aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${PRODUCTION_CLUSTER}
-                    kubectl apply -f ./jenkins/k8s/production-deployment.yaml -n production
-                    """
+                    def services = ['patient-service', 'doctor-service','appointment-service']
+                    def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
+                    for (service in services) {
+                        // Switch context to testing cluster
+                        withCredentials([aws(credentialsId: 'AWS_CREDS')]) {
+                            sh """
+                            /usr/local/bin/aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${PRODUCTION_CLUSTER}
+                            kubectl apply -f ./jenkins/k8s/prod-${service}-deployment.yml
+                            """
+
+                            // Verify deployment
+                            sh """
+                            kubectl get pods
+                            """
+                        }
+                    }
                 }
             }
         }
+
     }
 
     post {

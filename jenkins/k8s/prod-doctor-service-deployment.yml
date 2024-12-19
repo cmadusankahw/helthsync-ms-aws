@@ -1,41 +1,40 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: appointment-service-deployment
+  name: doctor-service-deployment
   labels:
-    app: appointment-service
+    app: doctor-service
 spec:
   replicas: 2
+  strategy:
+    type: RollingUpdate
   selector:
     matchLabels:
-      app: appointment-service
+      app: doctor-service
   template:
     metadata:
       labels:
-        app: appointment-service
+        app: doctor-service
     spec:
       containers:
-      - name: appointment-serivce
-        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/appointment-service:latest
+      - name: doctor-serivce
+        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/prod/helthsync/doctor-service:latest
         ports:
         - containerPort: 8080
         resources:
           requests:
-            memory: "128Mi"
-            cpu: "500m"
-          limits:
             memory: "256Mi"
             cpu: "1"
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: appointment-serivce
+  name: doctor-serivce
 spec:
   selector:
-    app: appointment-serivce
+    app: doctor-serivce
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8081
+    targetPort: 8082
   type: LoadBalancer

@@ -30,12 +30,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hs-microservice
+  name: doctor-serivce
 spec:
   selector:
-    app: hs-microservice
+    app: doctor-serivce
   ports:
   - protocol: TCP
     port: 80
-    targetPort: 8080
+    targetPort: 8082
   type: LoadBalancer
