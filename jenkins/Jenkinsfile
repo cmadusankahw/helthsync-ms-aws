@@ -37,70 +37,18 @@ pipeline {
             }
         }
 
-        stage('Authenticate to AWS') {
-            steps {
-                withCredentials([aws(credentialsId: 'AWS_CREDS')]) {
-                    sh 'aws sts get-caller-identity'
-                }
-            }
-        }
 
         stage('Deploy services to Testing EKS') {
             steps {
                 script {
-                    def services = ['patient-service', 'doctor-service','appointment-service', 'notification-service', 'aggregator-service']
+                    def services = ['patient-service', 'doctor-service','appointment-service']
                     def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
                     for (service in services) {
-                        // Write the deployment.yaml dynamically
-                        writeFile file: 'deployment.yaml', text: """
-                        apiVersion: apps/v1
-                        kind: Deployment
-                        metadata:
-                          name: ${service}-deployment
-                          labels:
-                            app: ${service}
-                        spec:
-                          replicas: 3
-                          selector:
-                            matchLabels:
-                              app: ${service}
-                        template:
-                          metadata:
-                            labels:
-                              app: ${service}
-                          spec:
-                            containers:
-                            - name: ${service}-container
-                              image: ${ecr_registry_id}/test/helthsync/${service}:latest
-                              ports:
-                              - containerPort: 8080
-                              resources:
-                                requests:
-                                  memory: "128Mi"
-                                  cpu: "500m"
-                                limits:
-                                  memory: "256Mi"
-                                  cpu: "1"
-                        ---
-                        apiVersion: v1
-                        kind: Service
-                        metadata:
-                          name: ${service}
-                        spec:
-                          selector:
-                            app: ${service}
-                        ports:
-                        - protocol: TCP
-                          port: 80
-                          targetPort: 8080
-                        type: LoadBalancer
-                        """
-
                         // Switch context to testing cluster
                         withCredentials([aws(credentialsId: 'AWS_CREDS')]) {
                             sh """
                             /usr/local/bin/aws eks --region ${AWS_DEFAULT_REGION} update-kubeconfig --name ${TESTING_CLUSTER}  --debug
-                            kubectl apply -f deployment.yaml
+                            kubectl apply -f ./jenkins/k8s/testing-${service}-deployment.yml
                             """
 
                             // Verify deployment
