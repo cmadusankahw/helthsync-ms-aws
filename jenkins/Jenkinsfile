@@ -61,18 +61,25 @@ pipeline {
             }
         }
 
-
-        stage('Run Health Checks') {
+        stages {
+        stage('Run Unit Tests') {
             steps {
                 script {
-                    // Run simple API tests
-                    def testResult = sh(script: "curl -f http://299C0166393D40BE8FA1D8BBF89233F5.yl4.ap-south-1.eks.amazonaws.com/health", returnStatus: true)
-                    if (testResult != 0) {
-                        error "Helth Checks failed on testing cluster"
+                    def services = ['patient-service', 'doctor-service', 'appointment-service']
+                    for (service in services) {
+                        sh """
+                        echo "Running unit tests for ${service}..."
+                        cd ./services/${service}
+
+                        pip3 install -r requirements.txt
+
+                        pytest --junitxml=results_${service}.xml tests/
+                        """
                     }
                 }
             }
         }
+    }
 
 
         stage('Deploy Services to PROD ECR') {
@@ -121,7 +128,10 @@ pipeline {
 
     post {
         always {
-            cleanWs() // Clean workspace
+            // clean workspace
+            cleanWs(),
+            // Archive test reports
+            junit '**/results_*.xml'
         }
     }
 }
