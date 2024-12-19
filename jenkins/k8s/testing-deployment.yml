@@ -1,19 +1,18 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: hs-microservice
-  namespace: testing
+  name: patient-service-deployment
   labels:
-    app: hs-microservice
+    app: patient-service
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: hs-microservice
+      app: patient-service
   template:
     metadata:
       labels:
-        app: hs-microservice
+        app: patient-service
     spec:
       containers:
       - name: doctor-serivce
