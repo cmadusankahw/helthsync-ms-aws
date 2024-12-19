@@ -82,6 +82,9 @@ pipeline {
 
 
         stage('Deploy Services to PROD ECR') {
+            when {
+                branch 'main'
+            }
             steps {
                 withAWS(credentials: 'AWS_CREDS', region: "${AWS_DEFAULT_REGION}") {
                      script {
@@ -101,6 +104,9 @@ pipeline {
 
 
         stage('Deploy services to PROD EKS') {
+            when {
+                branch 'main'
+            }
             steps {
                 script {
                     def services = ['patient-service', 'doctor-service','appointment-service', 'aggregator-service', 'notification-service']
