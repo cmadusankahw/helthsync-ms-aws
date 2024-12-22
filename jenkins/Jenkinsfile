@@ -71,7 +71,14 @@ pipeline {
                         echo "Running unit tests for ${service}..."
                         cd ./services/${service}
 
-                        pipx install -r requirements.txt
+                        # Path to the requirements.txt file
+                        REQUIREMENTS_FILE="requirements.txt"
+
+                        while IFS= read -r package; do
+                        if [ ! -z "$package" ]; then
+                            echo "Installing $package with pipx..."
+                            pipx install $package || echo "Failed to install $package. Skipping..."
+                        fi
 
                         pytest --junitxml=results_${service}.xml tests/
                         """
