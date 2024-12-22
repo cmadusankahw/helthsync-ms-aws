@@ -71,9 +71,9 @@ pipeline {
                             echo "Running unit tests for ${service}..."
                             cd ./services/${service}
 
-                            python3 -m venv venv || exit 0
-                            source ./venv/bin/activate || exit 0
-                            pip3 install -r requirements.txt || exit 0
+                            python3 -m venv venv || true
+                            source ./venv/bin/activate || true
+                            pip3 install -r requirements.txt || true
 
                             pytest --junitxml=results_${service}.xml tests/
                             """
