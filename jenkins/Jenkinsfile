@@ -50,6 +50,11 @@ pipeline {
                             kubectl apply -f ./jenkins/k8s/testing-${service}-deployment.yml
                             """
 
+                            // Roll-out deployment
+                            sh """
+                            kubectl rollout restart deployment ${service}-deployment
+                            """
+
                             // Verify deployment
                             sh """
                             kubectl get pods
