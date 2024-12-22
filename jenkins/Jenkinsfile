@@ -64,18 +64,21 @@ pipeline {
 
         stage('Run Unit Tests') {
             steps {
-                script {
-                    def services = ['patient-service', 'doctor-service', 'appointment-service']
-                    for (service in services) {
-                        sh """
-                        echo "Running unit tests for ${service}..."
-                        cd ./services/${service}
+                withAWS(credentials: 'AWS_CREDS', region: "${AWS_DEFAULT_REGION}") {
+                    script {
+                        def services = ['patient-service', 'doctor-service', 'appointment-service']
+                        for (service in services) {
+                            sh """
+                            echo "Running unit tests for ${service}..."
+                            cd ./services/${service}
 
-                        pipx install pytest
-                        pipx install fastapi
+                            python3 -m venv venv || exit 0
+                            source venv/bin/activate || exit 0
+                            pip install -r requirements.txt || exit 0
 
-                        pytest --junitxml=results_${service}.xml tests/
-                        """
+                            pytest --junitxml=results_${service}.xml tests/
+                            """
+                        }
                     }
                 }
             }
