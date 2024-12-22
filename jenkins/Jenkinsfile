@@ -136,8 +136,8 @@ pipeline {
         always {
             // clean workspace
             cleanWs()
-            // Archive test reports
-            junit '**/results_*.xml'
+            echo 'Cleaning up unused Docker resources...'
+            sh 'docker system prune -af --volumes'
         }
     }
 }
