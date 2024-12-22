@@ -29,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hs-microservice
+  name: aggregator-serivce
 spec:
   selector:
-    app: hs-microservice
+    app: aggregator-serivce
   ports:
   - protocol: TCP
     port: 80

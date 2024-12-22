@@ -29,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hs-microservice
+  name: appointment-service
 spec:
   selector:
-    app: hs-microservice
+    app: appointment-service
   ports:
   - protocol: TCP
     port: 80

@@ -29,10 +29,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: hs-microservice
+  name: notification-serivce
 spec:
   selector:
-    app: hs-microservice
+    app: notification-serivce
   ports:
   - protocol: TCP
     port: 80
