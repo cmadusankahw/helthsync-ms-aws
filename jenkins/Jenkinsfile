@@ -71,7 +71,7 @@ pipeline {
                         echo "Running unit tests for ${service}..."
                         cd ./services/${service}
 
-                        pip3 install -r requirements.txt
+                        pipx install -r requirements.txt
 
                         pytest --junitxml=results_${service}.xml tests/
                         """
