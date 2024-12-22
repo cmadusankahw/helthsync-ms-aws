@@ -7,3 +7,4 @@ boto3
 APScheduler
 redis
 psycopg2-binary
+httpx
