@@ -46,3 +46,7 @@ async def get_aggregate_report(db: Session = Depends(get_db)):
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to generate aggregation report: {str(e)}"
         }
+    
+@app.get("/health")
+async def get_health():
+    return {"status": status.HTTP_200_OK, "message": {"status": "ok"}}

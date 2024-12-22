@@ -19,12 +19,8 @@ class LabResult(Base):
     result = Column(Text)
 
 class Prescription(Base):
-    __tablename__ = "lab_results"
+    __tablename__ = "prescription"
     id = Column(Integer, primary_key=True, index=True)
     patient_id = Column(Integer, ForeignKey("patients.id"))
     medicines = Column(Text)
     cost = Column(Float)
-
-LabResult.patient_id = relationship("Patient", back_populates="id", cascade="all, delete")
-
-Prescription.patient_id = relationship("Patient", back_populates="id", cascade="all, delete")

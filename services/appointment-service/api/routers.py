@@ -8,7 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = APIRouter()
 
-@app.post("/create", response_model=schemas.Appointment)
+@app.post("/create")
 async def create_appointment(appointment: schemas.AppointmentCreate, db: Session = Depends(get_db)):
     try:
         app = crud.create_appointment(db, appointment)
@@ -19,7 +19,7 @@ async def create_appointment(appointment: schemas.AppointmentCreate, db: Session
             "message": f"Failed to create appointment: {str(e)}"
         }
 
-@app.get("/get/{appointment_id}", response_model=schemas.Appointment)
+@app.get("/get/{appointment_id}")
 async def get_appointment(appointment_id: int, db: Session = Depends(get_db)):
     try:
         db_appointment = crud.get_appointment(db, appointment_id)
@@ -32,7 +32,7 @@ async def get_appointment(appointment_id: int, db: Session = Depends(get_db)):
             "message": f"Failed to retrieve appointment: {str(e)}"
         }
     
-@app.post("/update/{appointment_id}", response_model=schemas.Appointment)
+@app.post("/update/{appointment_id}")
 async def update_appointment(appointment_id: int, appointment:schemas.AppointmentCreate, db: Session = Depends(get_db)):
     try:
         db_appointment = crud.update_appointment(db, appointment_id, appointment)
@@ -57,3 +57,8 @@ async def delete_appointment(appointment_id: int, db: Session = Depends(get_db))
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to remove appointment: {str(e)}"
         }
+
+
+@app.get("/health")
+async def get_health():
+    return {"status": status.HTTP_200_OK, "message": {"status": "ok"}}

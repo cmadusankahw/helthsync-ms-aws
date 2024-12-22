@@ -89,3 +89,7 @@ async def list_scheduled_notifications():
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to schedule notification: {e.detail}"
         }
+
+@app.get("/health")
+async def get_health():
+    return {"status": status.HTTP_200_OK, "message": {"status": "ok"}}

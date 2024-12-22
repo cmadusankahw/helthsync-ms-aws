@@ -8,7 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = APIRouter()
 
-@app.post("/create", response_model=schemas.Patient)
+@app.post("/create")
 async def create_patient(patient: schemas.PatientCreate, db: Session = Depends(get_db)):
     try:
         patient = crud.create_patient(db, patient)
@@ -19,7 +19,7 @@ async def create_patient(patient: schemas.PatientCreate, db: Session = Depends(g
             "message": f"Failed to create patient: {str(e)}"
         }
 
-@app.get("/get/{patient_id}", response_model=schemas.Patient)
+@app.get("/get/{patient_id}")
 async def get_patient(patient_id: int, db: Session = Depends(get_db)):
     try:
         db_patient = crud.get_patient(db, patient_id)
@@ -32,7 +32,7 @@ async def get_patient(patient_id: int, db: Session = Depends(get_db)):
             "message": f"Failed to create patient: {str(e)}"
         }
 
-@app.put("/update/{patient_id}", response_model=schemas.Patient)
+@app.put("/update/{patient_id}")
 async def update_patient(patient_id: int, patient: schemas.PatientCreate, db: Session = Depends(get_db)):
     try:
         updated_patient = crud.update_patient(db, patient_id, patient)
@@ -45,7 +45,7 @@ async def update_patient(patient_id: int, patient: schemas.PatientCreate, db: Se
             "message": f"Failed to create patient: {str(e)}"
         }
 
-@app.post("/lab-results/add/{patient_id}", response_model=schemas.LabResult)
+@app.post("/lab-results/add/{patient_id}")
 async def add_lab_result(patient_id: int, lab_result: schemas.LabResultCreate, db: Session = Depends(get_db)):
     try:
         lab = crud.add_lab_result(db, patient_id, lab_result)
@@ -56,7 +56,7 @@ async def add_lab_result(patient_id: int, lab_result: schemas.LabResultCreate, d
             "message": f"Failed to unlink doctor: {str(e)}"
         }
 
-@app.post("/prescription/add/{patient_id}", response_model=schemas.Prescription)
+@app.post("/prescription/add/{patient_id}")
 async def add_prescription(patient_id: int, prescription: schemas.PrescriptionCreate, db: Session = Depends(get_db)):
     try:
         pc = crud.add_lab_result(db, patient_id, prescription)
@@ -66,3 +66,7 @@ async def add_prescription(patient_id: int, prescription: schemas.PrescriptionCr
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to unlink doctor: {str(e)}"
         }
+    
+@app.get("/health")
+async def get_health():
+    return {"status": status.HTTP_200_OK, "message": {"status": "ok"}}
