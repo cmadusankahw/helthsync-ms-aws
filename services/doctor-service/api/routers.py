@@ -8,7 +8,7 @@ models.Base.metadata.create_all(bind=engine)
 
 app = APIRouter()
 
-@app.post("/create", response_model=schemas.DoctorCreate)
+@app.post("/create")
 async def create_doctor(doctor: schemas.Doctor, db: Session = Depends(get_db)):
     try:
         doc = crud.create_doctor(db, doctor)
@@ -19,7 +19,7 @@ async def create_doctor(doctor: schemas.Doctor, db: Session = Depends(get_db)):
             "message": f"Failed to create doctor: {str(e)}"
         }
 
-@app.get("/get/{doctor_id}", response_model=schemas.Doctor)
+@app.get("/get/{doctor_id}")
 async def get_doctor(doctor_id: int, db: Session = Depends(get_db)):
     try:
         db_doc = crud.get_doctor(db, doctor_id)
@@ -32,7 +32,7 @@ async def get_doctor(doctor_id: int, db: Session = Depends(get_db)):
             "message": f"Failed to retrieve doctor: {str(e)}"
         }
     
-@app.post("/update/{doctor_id}", response_model=schemas.Doctor)
+@app.post("/update/{doctor_id}")
 async def update_doctor(doctor_id: int, doctor:schemas.DoctorCreate, db: Session = Depends(get_db)):
     try:
         db_doc = crud.update_doctor(db, doctor_id, doctor)
@@ -80,3 +80,7 @@ async def unlink_patient(doctor_id: int, patient_id: int, db: Session = Depends(
             "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
             "message": f"Failed to unlink doctor: {str(e)}"
         }
+
+@app.get("/health")
+async def get_health():
+    return {"status": status.HTTP_200_OK, "message": {"status": "ok"}}

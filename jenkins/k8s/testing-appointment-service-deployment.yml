@@ -17,6 +17,7 @@ spec:
       containers:
       - name: appointment-serivce
         image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/appointment-service:latest
+        imagePullPolicy: Always
         ports:
         - containerPort: 8080
         resources:

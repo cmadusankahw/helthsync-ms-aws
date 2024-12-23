@@ -4,7 +4,7 @@ from typing import Optional
 
 class DoctorCreate(BaseModel):
     name: str
-    speciality: str
+    specialty: str
 
 class Doctor(DoctorCreate):
     id: int
