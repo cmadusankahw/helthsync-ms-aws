@@ -40,7 +40,7 @@ pipeline {
         stage('Deploy services to Testing EKS') {
             steps {
                 script {
-                    def services = ['patient-service', 'doctor-service','appointment-service', 'aggregator-service', 'notification-service']
+                    def services = ['patient-service', 'doctor-service','appointment-service', 'aggregator-service', 'notification-service', 'redis']
                     def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
                     for (service in services) {
                         // Switch context to testing cluster
@@ -117,7 +117,7 @@ pipeline {
             }
             steps {
                 script {
-                    def services = ['patient-service', 'doctor-service','appointment-service', 'aggregator-service', 'notification-service']
+                    def services = ['patient-service', 'doctor-service','appointment-service', 'aggregator-service', 'notification-service', 'redis']
                     def ecr_registry_id = """${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_DEFAULT_REGION}.amazonaws.com"""
                     for (service in services) {
                         // Switch context to testing cluster

@@ -57,3 +57,15 @@ services:
       - ~/.aws:/root/.aws:ro
     image:
       chiranhw95/doctor-service:latest
+  
+  redis:
+    image: redis:6.2
+    container_name: redis
+    ports:
+      - "6379:6379"
+    command: ["redis-server", "--appendonly", "yes"]
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:

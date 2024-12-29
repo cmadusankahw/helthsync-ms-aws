@@ -7,8 +7,8 @@ class AppointmentReminder(BaseModel):
     patient_id: int
     appointment_id: int
     patient_email: str
-    appointment_time: datetime
-    reminder_time: datetime
+    appointment_time: str
+    reminder_time: str
 
 class NotificationResponse(BaseModel):
     status: int
