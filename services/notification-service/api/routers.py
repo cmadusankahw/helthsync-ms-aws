@@ -4,18 +4,18 @@ from typing import List
 from datetime import datetime, timedelta, timezone
 import redis
 from apscheduler.schedulers.background import BackgroundScheduler
+from contextlib import asynccontextmanager
 import json
 from api import schemas
 from api.utils import send_email
-from contextlib import asynccontextmanager
 
 # Connect to Redis (use AWS Elasticache in production)
 redis_client = redis.Redis(host='redis', port=6379, db=0)
 
 # Utility: Schedule notification in Redis
 def schedule_notification(reminder: schemas.AppointmentReminder):
-    now = datetime.now(timezone.utc)
-    delay = (reminder.reminder_time - now).total_seconds()
+    reminder_time = datetime.strptime(reminder.reminder_time, "%Y-%m-%dT%H:%M:%S.%fZ")
+    delay = (reminder_time - datetime.now()).total_seconds()
     if delay <= 0:
         raise HTTPException(status_code=400, detail="Reminder time must be in the future")
 
@@ -30,13 +30,15 @@ def notification_worker():
     keys = redis_client.keys("notification:*")
     for key in keys:
         reminder = json.loads(redis_client.get(key))
-        if datetime.now() >= datetime.fromisoformat(reminder['reminder_time']):
+        if datetime.now() >= datetime.strptime(reminder['reminder_time'], "%Y-%m-%dT%H:%M:%S.%fZ"):
             send_email(
                 to_email=reminder['patient_email'],
                 subject="Appointment Reminder",
                 body=f"Dear Patient, you have an upcoming appointment on {reminder['appointment_time']}."
             )
+            print("email sent")
             redis_client.delete(key)
+        print(f"Appointment reminder time is: {reminder['reminder_time']}")
 
 # Lifespan management for startup/shutdown
 @asynccontextmanager
@@ -72,7 +74,7 @@ async def schedule_appointment_reminder(reminder: schemas.AppointmentReminder):
         }
 
 # Endpoint: List all scheduled reminders
-@app.get("/scheduled-list", response_model=List[schemas.AppointmentReminder])
+@app.get("/scheduled-list")
 async def list_scheduled_notifications():
     try:
         keys = redis_client.keys("notification:*")

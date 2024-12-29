@@ -1,8 +1,10 @@
 fastapi
 uvicorn
 sqlalchemy
-aioredis
 pydantic
 boto3
+APScheduler
 python-dotenv
 psycopg2-binary
+sqlalchemy-redshift
+requests
