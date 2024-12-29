@@ -1,32 +1,29 @@
 from fastapi import APIRouter, HTTPException, Depends, status, FastAPI
 from pydantic import BaseModel
 from typing import List
-from datetime import datetime, timedelta
+from datetime import datetime, timedelta, timezone
 import redis
 from apscheduler.schedulers.background import BackgroundScheduler
 import json
 from api import schemas
+from api.utils import send_email
 from contextlib import asynccontextmanager
 
 # Connect to Redis (use AWS Elasticache in production)
-redis_client = redis.Redis(host='localhost', port=6379, db=0)
+redis_client = redis.Redis(host='redis', port=6379, db=0)
 
 # Utility: Schedule notification in Redis
 def schedule_notification(reminder: schemas.AppointmentReminder):
-    delay = (reminder.reminder_time - datetime.now()).total_seconds()
+    now = datetime.now(timezone.utc)
+    delay = (reminder.reminder_time - now).total_seconds()
     if delay <= 0:
         raise HTTPException(status_code=400, detail="Reminder time must be in the future")
 
     # Store the notification in Redis
     redis_key = f"notification:{reminder.appointment_id}"
-    redis_client.setex(redis_key, timedelta(seconds=delay), json.dumps(reminder.dict()))
+    redis_client.setex(redis_key, timedelta(seconds=delay), json.dumps(reminder.model_dump()))
     return redis_key
 
-# Utility: Mock sending email (can integrate AWS SES for production)
-def send_email(to_email: str, subject: str, body: str):
-    print(f"Sending email to {to_email}")
-    print(f"Subject: {subject}")
-    print(f"Body: {body}")
 
 # Background notification worker
 def notification_worker():
