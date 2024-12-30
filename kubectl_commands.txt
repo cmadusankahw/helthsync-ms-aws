@@ -1,0 +1,33 @@
+--get pods
+kubectl get pods -l app=doctor-service
+
+--get logs of a pod 
+kubectl logs doctor-service-deployment-xxxxxx
+
+--get all pods
+kubectl get pods
+
+--describe a deployed service
+kubectl describe svc doctor-service
+
+--get all services
+kubectl get svc
+
+--configure cluster
+/usr/local/bin/aws eks --region ap-south-1 update-kubeconfig --name helthsync-eks-test --debug
+/usr/local/bin/aws eks --region ap-south-1 update-kubeconfig --name helthsync-eks-prod
+
+--get all nodes details
+kubectl get nodes -o wide
+
+--get endpoints of a service
+kubectl get endpoints aggregator-service
+
+--describe aws auth configmap
+ubectl -n kube-system describe configmap aws-auth
+
+--expose a service as load balancer
+kubectl expose deployment aggregator-service-deployment  --type=LoadBalancer  --name=aggregator-service
+
+--aws check authentication from cluster
+aws sts get-caller-identit
