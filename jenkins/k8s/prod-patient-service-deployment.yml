@@ -17,7 +17,7 @@ spec:
         app: patient-service
     spec:
       containers:
-      - name: patient-serivce
+      - name: patient-service
         image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/prod/helthsync/patient-service:latest
         imagePullPolicy: Always
         ports:
@@ -36,6 +36,6 @@ spec:
     app: patient-service
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8083
+    port: 8085
+    targetPort: 8080
   type: LoadBalancer

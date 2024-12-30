@@ -15,7 +15,7 @@ spec:
         app: appointment-service
     spec:
       containers:
-      - name: appointment-serivce
+      - name: appointment-service
         image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/appointment-service:latest
         imagePullPolicy: Always
         ports:
@@ -31,12 +31,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: appointment-serivce
+  name: appointment-service
 spec:
   selector:
-    app: appointment-serivce
+    app: appointment-service
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8081
+    port: 8082
+    targetPort: 8080
   type: LoadBalancer

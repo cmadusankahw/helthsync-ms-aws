@@ -15,7 +15,7 @@ spec:
         app: aggregator-service
     spec:
       containers:
-      - name: aggregator-serivce
+      - name: aggregator-service
         image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/aggregator-service:latest
         imagePullPolicy: Always
         ports:
@@ -31,12 +31,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: aggregator-serivce
+  name: aggregator-service
 spec:
   selector:
-    app: aggregator-serivce
+    app: aggregator-service
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8085
+    port: 8081
+    targetPort: 8080
   type: LoadBalancer
