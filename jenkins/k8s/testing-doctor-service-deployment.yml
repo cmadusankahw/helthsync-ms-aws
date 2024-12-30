@@ -15,7 +15,7 @@ spec:
         app: doctor-service
     spec:
       containers:
-      - name: doctor-serivce
+      - name: doctor-service
         image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/doctor-service:latest
         imagePullPolicy: Always
         ports:
@@ -31,12 +31,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: doctor-serivce
+  name: doctor-service
 spec:
   selector:
-    app: doctor-serivce
+    app: doctor-service
   ports:
   - protocol: TCP
-    port: 80
-    targetPort: 8082
+    port: 8083
+    targetPort: 8080
   type: LoadBalancer

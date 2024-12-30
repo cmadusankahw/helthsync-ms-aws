@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: aggregator-service
-        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/aggregator-service:latest
+        image: chiranhw95/aggregator-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
