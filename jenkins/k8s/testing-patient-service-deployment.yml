@@ -39,4 +39,5 @@ spec:
   - protocol: TCP
     port: 8085
     targetPort: 8080
-  type: LoadBalancer
+    nodePort: 30005
+  type: NodePort
