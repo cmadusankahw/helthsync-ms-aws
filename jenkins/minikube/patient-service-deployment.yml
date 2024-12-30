@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: aggregator-service-deployment
+  name: patient-service-deployment
   labels:
-    app: aggregator-service
+    app: patient-service
 spec:
   replicas: 2
   selector:
     matchLabels:
-      app: aggregator-service
+      app: patient-service
   template:
     metadata:
       labels:
-        app: aggregator-service
+        app: patient-service
     spec:
       containers:
-      - name: aggregator-service
-        image: 586794443713.dkr.ecr.ap-south-1.amazonaws.com/test/helthsync/aggregator-service:latest
+      - name: patient-service
+        image: chiranhw95/patient-service:latest
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
@@ -31,12 +31,12 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: aggregator-service
+  name: patient-service
 spec:
   selector:
-    app: aggregator-service
+    app: patient-service
   ports:
   - protocol: TCP
-    port: 8081
+    port: 8085
     targetPort: 8080
   type: LoadBalancer
