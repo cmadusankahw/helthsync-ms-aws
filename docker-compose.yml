@@ -5,7 +5,7 @@ services:
       context: ./services/patient-service
       dockerfile: Dockerfile
     ports:
-      - "8000:8000"
+      - "8000:8080"
     env_file:
       - ./services/patient-service/.env
     volumes:
@@ -18,7 +18,7 @@ services:
       context: ./services/appointment-service
       dockerfile: Dockerfile
     ports:
-      - "8001:8000"
+      - "8001:8080"
     env_file:
       - ./services/appointment-service/.env
     volumes:
@@ -30,7 +30,7 @@ services:
     build:
       context: ./services/notification-service
     ports:
-      - "8002:8000"
+      - "8002:8080"
     env_file:
       - ./services/notification-service/.env
     volumes:
@@ -44,7 +44,7 @@ services:
       context: ./services/aggregator-service
       dockerfile: Dockerfile
     ports:
-      - "8003:8000"
+      - "8003:8080"
     env_file:
       - ./services/aggregator-service/.env
     volumes:
@@ -57,7 +57,7 @@ services:
       context: ./services/doctor-service
       dockerfile: Dockerfile
     ports:
-      - "8004:8000"
+      - "8004:8080"
     env_file:
       - ./services/doctor-service/.env
     volumes:

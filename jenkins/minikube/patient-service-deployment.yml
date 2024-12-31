@@ -20,13 +20,14 @@ spec:
         imagePullPolicy: Always
         ports:
         - containerPort: 8080
-        resources:
-          requests:
-            memory: "128Mi"
-            cpu: "500m"
-          limits:
-            memory: "256Mi"
-            cpu: "1"
+        volumeMounts:
+        - name: aws-credentials
+          mountPath: /root/.aws
+          readOnly: true
+      volumes:
+      - name: aws-credentials
+        secret:
+          secretName: aws-credentials
 ---
 apiVersion: v1
 kind: Service
