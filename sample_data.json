@@ -1,0 +1,263 @@
+// doctors
+{ "name": "Dr. Ava Lewis", "specialty": "Pulmonology", "id": 11 },
+  { "name": "Dr. Benjamin Young", "specialty": "Rheumatology", "id": 12 },
+  { "name": "Dr. Charlotte King", "specialty": "Urology", "id": 13 },
+  { "name": "Dr. Elijah Hall", "specialty": "Ophthalmology", "id": 14 },
+  { "name": "Dr. Isabella Scott", "specialty": "Anesthesiology", "id": 15 },
+  { "name": "Dr. Henry Moore", "specialty": "Radiology", "id": 16 },
+  { "name": "Dr. Evelyn Taylor", "specialty": "Hematology", "id": 17 },
+  { "name": "Dr. Alexander White", "specialty": "Nephrology", "id": 18 },
+  { "name": "Dr. Grace Thompson", "specialty": "Allergy and Immunology", "id": 19 },
+  { "name": "Dr. Samuel Adams", "specialty": "Pathology", "id": 20 }
+
+
+// patients
+{
+    "name": "Amelia Clark",
+    "dob": "1978-10-15",
+    "age": 46,
+    "medical_history": "Consulted for shortness of breath. Diagnosed with asthma and given an inhaler.",
+    "doctor_id": 11
+  },
+  {
+    "name": "Benjamin Hall",
+    "dob": "1984-05-05",
+    "age": 40,
+    "medical_history": "Treated for rheumatoid arthritis flare-ups. Started on DMARD therapy.",
+    "doctor_id": 12
+  },
+  {
+    "name": "Ava Adams",
+    "dob": "1981-02-27",
+    "age": 43,
+    "medical_history": "Visited for kidney stone treatment. Advised to increase water intake and avoid oxalates.",
+    "doctor_id": 18
+  },
+  {
+    "name": "Henry King",
+    "dob": "2002-04-09",
+    "age": 22,
+    "medical_history": "Diagnosed with cataracts. Surgery scheduled by ophthalmology team.",
+    "doctor_id": 14
+  },
+  {
+    "name": "Charlotte Moore",
+    "dob": "1970-09-14",
+    "age": 54,
+    "medical_history": "Routine scans by radiology for potential bone loss. No significant findings.",
+    "doctor_id": 16
+  },
+  {
+    "name": "Lucas White",
+    "dob": "1998-01-20",
+    "age": 26,
+    "medical_history": "Treated for severe allergic reaction to peanuts. Prescribed an EpiPen.",
+    "doctor_id": 19
+  },
+  {
+    "name": "Grace Thompson",
+    "dob": "1994-06-08",
+    "age": 30,
+    "medical_history": "Blood tests for anemia. Started on iron supplements based on hematology advice.",
+    "doctor_id": 17
+  },
+  {
+    "name": "Ethan Young",
+    "dob": "1991-11-29",
+    "age": 33,
+    "medical_history": "Chronic sinusitis treated with ENT consultation. Scheduled for further imaging.",
+    "doctor_id": 13
+  },
+  {
+    "name": "Isabella Scott",
+    "dob": "2005-03-11",
+    "age": 19,
+    "medical_history": "Appendectomy performed after acute abdominal pain diagnosis.",
+    "doctor_id": 15
+  },
+  {
+    "name": "Alexander Wright",
+    "dob": "1983-12-22",
+    "age": 40,
+    "medical_history": "Tested for hormonal imbalances. Started on thyroid hormone therapy.",
+    "doctor_id": 10
+  },
+  {
+    "name": "Harper Baker",
+    "dob": "1999-07-31",
+    "age": 25,
+    "medical_history": "Consulted for irregular menstrual cycles. Monitored under gynecological care.",
+    "doctor_id": 7
+  }
+
+  // appointments
+    {
+      "patient_id": 1,
+      "doctor_id": 2,
+      "appointment_time": "2024-12-31T17:00:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Headache"
+    },
+    {
+      "patient_id": 3,
+      "doctor_id": 1,
+      "appointment_time": "2024-12-31T17:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Dizziness"
+    },
+    {
+      "patient_id": 5,
+      "doctor_id": 3,
+      "appointment_time": "2024-12-31T18:00:00.000Z",
+      "doctor_availability": "not-available",
+      "status": "rescheduled",
+      "reason": "Fatigue"
+    },
+    {
+      "patient_id": 7,
+      "doctor_id": 4,
+      "appointment_time": "2024-12-31T18:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Nausea"
+    },
+    {
+      "patient_id": 9,
+      "doctor_id": 2,
+      "appointment_time": "2024-12-31T19:00:00.000Z",
+      "doctor_availability": "not-available",
+      "status": "canceled",
+      "reason": "Cough"
+    },
+    {
+      "patient_id": 4,
+      "doctor_id": 5,
+      "appointment_time": "2024-12-31T19:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Rash"
+    },
+    {
+      "patient_id": 6,
+      "doctor_id": 6,
+      "appointment_time": "2024-12-31T20:00:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Anxiety"
+    },
+    {
+      "patient_id": 2,
+      "doctor_id": 7,
+      "appointment_time": "2024-12-31T20:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Cramps"
+    },
+    {
+      "patient_id": 8,
+      "doctor_id": 8,
+      "appointment_time": "2024-12-31T21:00:00.000Z",
+      "doctor_availability": "not-available",
+      "status": "rescheduled",
+      "reason": "Back Pain"
+    },
+    {
+      "patient_id": 1,
+      "doctor_id": 9,
+      "appointment_time": "2024-12-31T21:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Ulcer"
+    },
+    {
+      "patient_id": 3,
+      "doctor_id": 10,
+      "appointment_time": "2024-12-31T22:00:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Fatigue"
+    },
+    {
+      "patient_id": 4,
+      "doctor_id": 1,
+      "appointment_time": "2024-12-31T22:30:00.000Z",
+      "doctor_availability": "not-available",
+      "status": "rescheduled",
+      "reason": "Cough"
+    },
+    {
+      "patient_id": 5,
+      "doctor_id": 2,
+      "appointment_time": "2024-12-31T23:00:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Chest Pain"
+    },
+    {
+      "patient_id": 6,
+      "doctor_id": 3,
+      "appointment_time": "2024-12-31T23:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Dizziness"
+    },
+    {
+      "patient_id": 7,
+      "doctor_id": 4,
+      "appointment_time": "2024-12-31T17:00:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Migraine"
+    },
+    {
+      "patient_id": 8,
+      "doctor_id": 5,
+      "appointment_time": "2024-12-31T17:30:00.000Z",
+      "doctor_availability": "not-available",
+      "status": "canceled",
+      "reason": "Allergy"
+    },
+    {
+      "patient_id": 9,
+      "doctor_id": 6,
+      "appointment_time": "2024-12-31T18:00:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Stress"
+    },
+    {
+      "patient_id": 10,
+      "doctor_id": 7,
+      "appointment_time": "2024-12-31T18:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Menstrual Pain"
+    },
+    {
+      "patient_id": 2,
+      "doctor_id": 8,
+      "appointment_time": "2024-12-31T19:00:00.000Z",
+      "doctor_availability": "not-available",
+      "status": "rescheduled",
+      "reason": "Back Pain"
+    },
+    {
+      "patient_id": 3,
+      "doctor_id": 9,
+      "appointment_time": "2024-12-31T19:30:00.000Z",
+      "doctor_availability": "available",
+      "status": "scheduled",
+      "reason": "Ulcer"
+    }
+    
+
+    // notification
+    {
+        "patient_id": 5,
+        "appointment_id": 1,
+        "patient_email": "test@gmail.com",
+        "appointment_time": "2025-01-01T11:30:00.000Z",
+        "reminder_time": "2024-01-01T11:54:46.619627Z"
+      }
