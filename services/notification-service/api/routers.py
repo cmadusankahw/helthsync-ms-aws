@@ -1,7 +1,6 @@
 from fastapi import APIRouter, HTTPException, Depends, status, FastAPI
 from pydantic import BaseModel
-from typing import List
-from datetime import datetime, timedelta, timezone
+from datetime import datetime, timedelta
 import redis
 from apscheduler.schedulers.background import BackgroundScheduler
 from contextlib import asynccontextmanager
