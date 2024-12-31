@@ -24,10 +24,10 @@ spec:
         - name: aws-credentials
           mountPath: /root/.aws
           readOnly: true
-        volumes:
-        - name: aws-credentials
-          secret:
-            secretName: aws-credentials
+      volumes:
+      - name: aws-credentials
+        secret:
+          secretName: aws-credentials
 ---
 apiVersion: v1
 kind: Service
