@@ -34,7 +34,7 @@ def notification_worker():
             send_email(
                 to_email=reminder['patient_email'],
                 subject="Appointment Reminder",
-                body=f"Dear Patient, you have an upcoming appointment on {reminder['appointment_time']}."
+                body=f"Dear Patient, you have an upcoming appointment on {reminder['appointment_time'].replace('T', ' ').replace('Z', '')}."
             )
             print("email sent")
             redis_client.delete(key)
